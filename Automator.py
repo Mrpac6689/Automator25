@@ -315,8 +315,16 @@ def extrair_nomes(original_df):
     # Converte a lista de nomes extraídos para um DataFrame
     nomes_df = pd.DataFrame(nomes_extraidos, columns=['Nome'])
     
+    # Determina o diretório onde o executável ou o script está sendo executado
+    if getattr(sys, 'frozen', False):
+        # Se o programa estiver rodando como executável
+        base_dir = os.path.dirname(sys.executable)
+    else:
+        # Se estiver rodando como um script Python
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+    
     # Caminho para salvar o novo arquivo sobrescrevendo o anterior na pasta atual
-    caminho_novo_arquivo = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'internados_ghosp.csv')
+    caminho_novo_arquivo = os.path.join(base_dir, 'internados_ghosp.csv')
     nomes_df.to_csv(caminho_novo_arquivo, index=False)
     
     print(f"Nomes extraídos e salvos em {caminho_novo_arquivo}.")
@@ -685,15 +693,25 @@ def comparar():
             messagebox.showerror("Erro", f"Ocorreu um erro: {e}")
     threading.Thread(target=run_task).start()
 
+# Função para trazer a janela principal para a frente
+def trazer_janela_para_frente():
+    janela.lift()  # Traz a janela principal para a frente
+    janela.attributes('-topmost', True)  # Coloca a janela no topo de todas
+    janela.attributes('-topmost', False)  # Remove a condição de "sempre no topo" após ser trazida à frente
+
 # Função para capturar o motivo de alta
 def capturar_motivo_alta():
+    print("Capturando motivo de alta...")
     def run_task():
         try:
+           # Função para trazer a janela principal para a frente
             motivo_alta()
             messagebox.showinfo("Sucesso", "Motivos de alta capturados com sucesso!")
         except Exception as e:
             messagebox.showerror("Erro", f"Ocorreu um erro: {e}")
     threading.Thread(target=run_task).start()
+    janela.after(3000, trazer_janela_para_frente)
+
 
 # Função para abrir e editar o arquivo config.ini
 def abrir_configuracoes():
@@ -962,6 +980,16 @@ def criar_interface():
     
     btn_exibir_comparar = tk.Button(frame_comparar, text="Exibir Resultado Comparação", command=lambda: abrir_csv('pacientes_de_alta.csv'), width=button_width)
     btn_exibir_comparar.pack(side=tk.LEFT, padx=5)
+
+    # Frame para Capturar Motivo de Alta
+    frame_motivo_alta = tk.Frame(janela)
+    frame_motivo_alta.pack(pady=5)
+
+    btn_motivo_alta = tk.Button(frame_motivo_alta, text="Capturar Motivo de Alta", command=capturar_motivo_alta, width=button_width)
+    btn_motivo_alta.pack(side=tk.LEFT, padx=5)
+
+    btn_exibir_motivo_alta = tk.Button(frame_motivo_alta, text="Exibir Motivos de Alta", command=lambda: abrir_csv('pacientes_de_alta.csv'), width=button_width)
+    btn_exibir_motivo_alta.pack(side=tk.LEFT, padx=5)
 
     # Botão de Sair
     btn_sair = tk.Button(janela, text="Sair", command=sair_programa, width=2*button_width + 10)  # Largura ajustada para ficar mais largo
