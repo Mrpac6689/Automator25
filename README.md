@@ -27,19 +27,19 @@ Novidades da Versão 2.0:
 Dependências:
 Caso opte-se por não executar o programa já compilado, é necessário instalar as seguintes bibliotecas e ferramentas:
 
-  Python (versão 3.6 ou superior)
-  Selenium: Biblioteca para automação de navegadores.
-  ConfigParser: Para ler arquivos de configuração.
-  Colorama: Para adicionar cores ao terminal.
-  Tkinter: Biblioteca gráfica para criar a interface (geralmente incluída com o Python).
+    Python (versão 3.6 ou superior)
+    Selenium: Biblioteca para automação de navegadores.
+    ConfigParser: Para ler arquivos de configuração.
+    Colorama: Para adicionar cores ao terminal.
+    Tkinter: Biblioteca gráfica para criar a interface (geralmente incluída com o Python).
 
 Como instalar as dependências:
 Abra o Prompt de Comando ou Terminal no diretório do programa e execute os seguintes comandos:
 
-  pip install selenium
-  pip install configparser
-  pip install colorama
-  pip install pandas
+    pip install selenium
+    pip install configparser
+    pip install colorama
+    pip install pandas
 
 Ferramentas externas:
   Google Chrome: O navegador utilizado para a automação.
