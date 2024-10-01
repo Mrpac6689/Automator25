@@ -1,0 +1,6 @@
+tk
+pandas
+selenium
+requests
+flake8
+pytest
